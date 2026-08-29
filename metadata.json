@@ -1,0 +1,6 @@
+{
+  "name": "PlayVear",
+  "description": "বাংলাদেশিদের জন্য ফ্রী ফায়ার এবং লুডু এস্পোর্টস টুর্নামেন্ট অ্যাপ্লিকেশন (PlayVear)।",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,167 @@
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      setUser(currentUser);
+      setError(null);
+      
+      if (currentUser) {
+        setDbLoading(true);
+        const userDocRef = doc(db, 'users', currentUser.uid);
+        
+        try {
+          // Timeout after 3 seconds to ensure user is never stuck on "Verifying account..."
+          const fetchPromise = getDoc(userDocRef);
+          const timeoutPromise = new Promise<never>((_, reject) =>
+            setTimeout(() => reject(new Error('Firestore read timeout')), 3000)
+          );
+          
+          const userSnap = await Promise.race([fetchPromise, timeoutPromise]) as any;
+          
+          if (!userSnap.exists()) {
+            // Profile does not exist, create a new one
+            const isUserAdmin = currentUser.email === 'vortexesports150@gmail.com';
+            const newProfile: UserProfile = {
+              userId: currentUser.uid,
+              email: currentUser.email || '',
+              displayName: currentUser.displayName || 'Gamer ' + currentUser.uid.substring(0, 5),
+              photoURL: currentUser.photoURL || null,
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString(),
+              role: isUserAdmin ? 'admin' : 'user',
+              health: 10, exp: 0,
+              stars: 0,
+              level: 1,
+              economyScore: selectedGame === 'freefire' ? (3200 + Math.floor(Math.random() * 200)) : selectedGame === 'pubg' ? (1950 + Math.floor(Math.random() * 200)) : (850 + Math.floor(Math.random() * 200)),
+            };
+
+            setUserProfile(newProfile);
+            setTokensState(150);
+            try {
+              localStorage.setItem(`vortex_user_profile_${currentUser.uid}`, JSON.stringify(newProfile));
+              localStorage.setItem(`vortex_tokens_${currentUser.uid}`, '150');
+            } catch (e) {
+              console.error(e);
+            }
+
+            // Create doc in background
+            setDoc(userDocRef, {
+              userId: newProfile.userId,
+              email: newProfile.email,
+              displayName: newProfile.displayName,
+              photoURL: newProfile.photoURL,
+              createdAt: serverTimestamp(),
+              updatedAt: serverTimestamp(),
+              role: newProfile.role,
+              tokens: 150,
+              health: 10, exp: 0,
+              stars: 0,
+              level: 1,
+              economyScore: newProfile.economyScore,
+            }).catch(e => console.warn('Background profile create error:', e));
+
+          } else {
+            // Document exists
+            const data = userSnap.data();
+            const isUserAdmin = currentUser.email === 'vortexesports150@gmail.com';
+            
+            // Auto update role to admin if email matches
+            if (isUserAdmin && data.role !== 'admin') {
+              updateDoc(userDocRef, { role: 'admin' }).catch(e => console.warn(e));
+              data.role = 'admin';
+            }
+
+            if (data.selectedGame && (data.selectedGame === 'freefire' || data.selectedGame === 'pubg' || data.selectedGame === 'ludo')) {
+              setSelectedGame(data.selectedGame);
+            }
+
+            const profileToCache: UserProfile = {
+              userId: data.userId || currentUser.uid,
+              email: data.email || currentUser.email || '',
+              displayName: data.displayName || currentUser.displayName || 'Gamer',
+              photoURL: data.photoURL || currentUser.photoURL || null,
+              createdAt: data.createdAt?.toDate?.()?.toISOString() || new Date().toISOString(),
+              updatedAt: data.updatedAt?.toDate?.()?.toISOString() || new Date().toISOString(),
+              role: (isUserAdmin ? 'admin' : (data.role || 'user')) as 'user' | 'admin',
+              gameStats: data.gameStats || null,
+              health: typeof data.health === 'number' ? data.health : 10,
+              stars: typeof data.stars === 'number' ? data.stars : 0,
+              level: typeof data.level === 'number' ? data.level : 1, 
+              exp: typeof data.exp === 'number' ? data.exp : 0,
+              economyScore: typeof data.economyScore === 'number' ? data.economyScore : 1,
+              gamingUid: data.gamingUid || "",
+              gameName: data.gameName || "",
+              mobile: data.mobile || "",
+              division: data.division || "",
+              district: data.district || "",
+              upazila: data.upazila || "",
+            };
+
+            setUserProfile(profileToCache);
+
+            let finalTokens = 50;
+            if (typeof data.tokens === 'number') {
+              finalTokens = data.tokens;
+              setTokensState(data.tokens);
+            } else {
+              setTokensState(50);
+            }
+
+            try {
+              localStorage.setItem(`vortex_user_profile_${currentUser.uid}`, JSON.stringify(profileToCache));
+              localStorage.setItem(`vortex_tokens_${currentUser.uid}`, String(finalTokens));
+            } catch (e) {
+              console.error(e);
+            }
+          }
+          setOfflineMode(false);
+        } catch (err) {
+          console.warn('Could not connect to database or read timed out, using profile cache/fallback:', err);
+          
+          let hasCached = false;
+          try {
+            const cachedProfileStr = localStorage.getItem(`vortex_user_profile_${currentUser.uid}`);
+            const cachedTokensStr = localStorage.getItem(`vortex_tokens_${currentUser.uid}`);
+            if (cachedProfileStr) {
+              const cachedProfile = JSON.parse(cachedProfileStr);
+              setUserProfile(cachedProfile);
+              if (cachedTokensStr) {
+                setTokensState(Number(cachedTokensStr));
+              }
+              hasCached = true;
+              setOfflineMode(true);
+            }
+          } catch (cacheErr) {
+            console.error('Failed to parse cached user profile or tokens:', cacheErr);
+          }
+
+          if (!hasCached) {
+            const isUserAdmin = currentUser.email === 'vortexesports150@gmail.com';
+            const fallbackProfile: UserProfile = {
+              userId: currentUser.uid,
+              email: currentUser.email || '',
+              displayName: currentUser.displayName || 'Gamer ' + currentUser.uid.substring(0, 5),
+              photoURL: currentUser.photoURL || null,
+              createdAt: new Date().toISOString(),
+              updatedAt: new Date().toISOString(),
+              role: isUserAdmin ? 'admin' : 'user',
+              economyScore: 100,
+            };
+            setUserProfile(fallbackProfile);
+            setTokensState(150);
+            setOfflineMode(true);
+          }
+        } finally {
+          setDbLoading(false);
+          setSigningIn(false);
+          setAuthLoading(false);
+        }
+      } else {
+        setUserProfile(null);
+        setSigningIn(false);
+        setAuthLoading(false);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  // Real-time listen for Team Invitations and User's Team

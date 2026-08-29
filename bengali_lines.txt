@@ -1,0 +1,145 @@
+3711:                rank: isNoShow ? 'Absent (অনুপস্থিত)' : isBooyah ? '1st (Booyah)' : isRunnerUp ? '2nd Place' : 'Contender',
+3802:                  rank: isNoShow ? 'Absent (অনুপস্থিত)' : isBooyah ? '1st (Booyah)' : isRunnerUp ? '2nd Place' : 'Contender'
+6086:                                  <span className="text-[7.5px] font-black text-slate-500 uppercase tracking-widest block text-left mb-1">Squad Roster (খেলোয়াড় তালিকা):</span>
+6606:                                          🗺️ ম্যাপ (Map): <strong className="text-white underline">{match.map || 'Bermuda'}</strong>
+6621:                                            {match.type === 'squad' ? '🛡️ স্কোয়াড ম্যাচ (Squad)' : '⚔️ সোলো ম্যাচ (Solo Combat)'}
+6627:                                            {joinedCount} / {maxP} জন খেলছে
+6632:                                      {/* 🏆 পুরস্কারের মেগা ড্যাশবোর্ড / MEGA PRIZE POOL DISPATCH */}
+6636:                                            🏆 মেগা প্রাইজপুল (MEGA PRIZE POOL)
+6639:                                            মোট পুরস্কার (Total Prize)
+6645:                                          {/* ১ম বিজয়ী / Booyah Champion */}
+6649:                                              ১ম বিজয়ী (Booyah)
+6658:                                              টোকেন (Tokens)
+6662:                                          {/* প্রতি কিল / Per Kill Reward */}
+6666:                                              প্রতি কিল (Per Kill)
+6675:                                              টোকেন (Tokens)
+6679:                                          {/* ২য় বিজয়ী / Runner Up */}
+6683:                                              ২য় বিজয়ী (Runner-Up)
+6692:                                              টোকেন (Tokens)
+6703:                                        <span>⚡ ম্যাচ লাইভ চলছে - খেলা উপভোগ করুন (Match is Ongoing)</span>
+6833:                                          🗺️ ম্যাপ (Map): <strong className="text-white underline">{match.map || 'Bermuda'}</strong>
+6841:                                            👑 ১ম স্থান বিজয়ী (Booyah Champion)
+6850:                                              🥈 ২য় স্থান বিজয়ী (Runner Up)
+6859:                                      {/* 🏆 পুরস্কারের মেগা ড্যাশবোর্ড / MEGA PRIZE POOL DISPATCH */}
+6863:                                            🏆 মেগা প্রাইজপুল (MEGA PRIZE POOL)
+6866:                                            মোট পুরস্কার বিতরণ (Distributed)
+6872:                                          {/* ১ম বিজয়ী / Booyah Champion */}
+6876:                                              ১ম বিজয়ী (Booyah)
+6885:                                              টোকেন (Tokens)
+6889:                                          {/* প্রতি কিল / Per Kill Reward */}
+6893:                                              প্রতি কিল (Per Kill)
+6902:                                              টোকেন (Tokens)
+6906:                                          {/* ২য় বিজয়ী / Runner Up */}
+6910:                                              ২য় বিজয়ী (Runner-Up)
+6919:                                              টোকেন (Tokens)
+6934:                                        🏆 লিডারবোর্ড ও স্ক্রিনশট দেখুন (View Results Table)
+7094:                                    {/* 🏆 পুরস্কারের মেগা ড্যাশবোর্ড / MEGA PRIZE POOL DISPATCH */}
+7107:                                        {/* ১ম বিজয়ী / Booyah Champion */}
+7124:                                        {/* প্রতি কিল / Per Kill Reward */}
+7141:                                        {/* ২য় বিজয়ী / Runner Up */}
+8109:                            {/* Player info with Profile Picture ("গেম দেন" is IGN) */}
+8201:                            My Team (মাই টিম)
+8472:                                    হেলথ লেভেল (HEALTH)
+8580:                                          ইকোনমি স্কোর (Eco Score)
+8610:                                CAREER STATISTICS (ক্যারিয়ার পরিসংখ্যান)
+8616:                                    Total Registered Matches (মোট জয়েন করেছে)
+8624:                                    Total Played Matches (মোট খেলেছে)
+8632:                                    Total Kills (সব ম্যাচে মোট কিল)
+8640:                                    Total Booyah (মোট ভূঁইয়া)
+8648:                                    Total Runner-Up (মোট রানারআপ)
+8660:                                TOURNAMENT STATS (টুর্নামেন্ট অনুযায়ী পরিসংখ্যান)
+8688:                                    Played Matches (খেলেছে)
+8696:                                    Joined Matches (জয়েন করেছে)
+8704:                                    Kills (কিল করেছে)
+8712:                                    Booyah (বইয়ার সংখ্যা)
+8720:                                    Runner-Up (রানারআপ সংখ্যা)
+9157:                                <span>Management Terminal (ম্যানেজমেন্ট সিস্টেম)</span>
+9173:                                    <h4 className="text-[11px] font-black text-white uppercase tracking-wider leading-none">ক্রিয়েট ম্যাচ</h4>
+9192:                                    <h4 className="text-[11px] font-black text-white uppercase tracking-wider leading-none">আপকামিং ম্যাচ</h4>
+9211:                                    <h4 className="text-[11px] font-black text-white uppercase tracking-wider leading-none">অনগোয়িং ম্যাচ</h4>
+9230:                                    <h4 className="text-[11px] font-black text-white uppercase tracking-wider leading-none">ম্যাচ হিস্ট্রি</h4>
+9240:                                  ⚠️ Developer Sandbox Controls (রিসেট ও ডিলিট অপশন)
+9607:                                      👑 টপ ৪৮ টুর্নামেন্টের জন্য কোনো লেভেল, স্টার, হেলথ বা ইকোনোমি রিকোয়ারমেন্ট সেট করার প্রয়োজন নেই। শুধুমাত্র লিডারবোর্ডের সেরা ৪৮ জন প্লেয়ারই এতে অংশ নিতে পারবে।
+9751:                                  <span>⚙️ Health & Economics Rules (হেলথ ও ইকোনোমি স্কোর রুলস)</span>
+9758:                                      ❌ Absent / No Show (টুর্নামেন্ট জয়েন করে না খেললে)
+9807:                                      💀 Played with Zero Kills (কোনো কিল করতে না পারলে)
+9856:                                      ⚔️ Per Kill Boost (প্রতি কিলের জন্য)
+9905:                                      🏆 Booyah Reward (বুয়াহ পেলে)
+9954:                                      🥈 Runner-Up Reward (রানারআপ পেলে)
+10042:                                  <span>Upcoming Match Setup (আসন্ন ম্যাচসমূহ)</span>
+10195:                                  <span>Live Ongoing Tournaments (চলতি টুর্নামেন্ট)</span>
+10261:                                    <span>Match Details (ম্যাচ মডিফাই)</span>
+10358:                                      <label className="text-[9px] text-slate-400 font-bold block">Status (ম্যাচ ও খেলা স্ট্যাটাস)</label>
+10364:                                        <option value="Open">Open (ভর্তি চলছে)</option>
+10365:                                        <option value="Ongoing">Ongoing (খেলা চলছে)</option>
+10366:                                        <option value="Ended">Ended (খেলা শেষ)</option>
+10601:                                                      হেলথ লেভেল {previewHealthDelta >= 0 ? '+' : ''}{previewHealthDelta}%
+10604:                                                      ইকোনমি স্কোর {previewEconomyDelta >= 0 ? '+' : ''}{previewEconomyDelta}
+11011:                                                        rank: isNoShow ? 'Absent (অনুপস্থিত)' : isBooyahWinner ? '1st (Booyah)' : isRunnerUpWinner ? '2nd Place' : 'Contender'
+11104:                                  <span>Archived Completed Tournaments (আর্কাইভ রেকর্ড)</span>
+11165:                                              🔍 ফলাফল ও বিবরণ দেখতে ক্লিক করুন (Click to View Results)
+12462:                            ⚡ Quick Match presets (ম্যাচ প্রিসেট টেমপ্লেট)
+12683:                              {newTourneyType === 'squad' ? 'Total Match Slots (সর্বোচ্চ কতটি স্কোয়াড জয়েন করতে পারবে)' : 'Total Slots / Max Teams Count'}
+12694:                                ℹ️ ম্যাচ টাইপ স্কোয়াড থাকায় এখানে সর্বোচ্চ টোটাল স্কোয়াড (যেমন: ১২ টি দল) নির্ধারণ হবে।
+12734:                                  {isUploadingImage === 'new_small' ? 'Uploading & Resizing...' : 'Upload from Device (মোবাইল/কম্পিউটার)'}
+12780:                                  {isUploadingImage === 'new_big' ? 'Uploading & Resizing...' : 'Upload from Device (মোবাইল/কম্পিউটার)'}
+12806:                              <span>Grandmaster match status (গ্র্যান্ডমাস্টার টুর্নামেন্ট)</span>
+12809:                              শুধুমাত্র এভারেজ র‍্যাংকিং এবং পয়েন্টে শীর্ষ ৪৮ জন প্লেয়ার এতে জয়েন করতে পারবে।
+13034:                              {adminType === 'squad' ? 'Max Squads (সর্বোচ্চ স্কোয়াড)' : 'Max Players / Slots'}
+13045:                                স্কোয়াড স্লট সংখ্যা
+13097:                                  {isUploadingImage === 'admin_small' ? 'Uploading & Resizing...' : 'Upload from Device (মোবাইল/কম্পিউটার)'}
+13143:                                  {isUploadingImage === 'admin_big' ? 'Uploading & Resizing...' : 'Upload from Device (মোবাইল/কম্পিউটার)'}
+13447:                                            হেলথ লেভেল {previewHealthDelta >= 0 ? '+' : ''}{previewHealthDelta}%
+13450:                                            ইকোনমি স্কোর {previewEconomyDelta >= 0 ? '+' : ''}{previewEconomyDelta}
+13794:                                          rank: isNoShow ? 'Absent (অনুপস্থিত)' : isBooyahWinner ? '1st (Booyah)' : isRunnerUpWinner ? '2nd Place' : 'Contender'
+14542:                      My Team (মাই টিম)
+14568:                            Assemble Esports Squad (নতুন টিম বানান)
+14574:                              <label className="text-[8.5px] font-mono uppercase tracking-wider text-slate-400 block text-left">Team Name (টিমের নাম) <span className="text-rose-500">*</span></label>
+14587:                                Cover Photo (টিমের ব্যানার) <span className="text-purple-400 text-[8px] font-sans font-normal">(Auto-compressed &lt; 150 KB)</span>
+14660:                              <label className="text-[8.5px] font-mono uppercase tracking-wider text-purple-400 block text-left font-black">Invite Friends by Gmail (বন্ধুদের জিমেইল দিয়ে অ্যাড দিন)</label>
+15156:                          এই নির্দিষ্ট তারিখ ও সময়ের মধ্যে সেরা ৪৮ র্যাঙ্কিং নিশ্চিত করুন!
+15175:                          এই টুর্নামেন্টে অংশগ্রহণের জন্য কোনো লেভেল, স্টার, হেলথ বা ইকোনোমি স্কোর রিকোয়ারমেন্ট নেই। শুধুমাত্র যারা বাংলাদেশ অঞ্চলের লিডারবোর্ডের সেরা ৪৮ জনের মধ্যে অবস্থান করবেন, তারাই কেবল এই খেলায় অংশ নিতে পারবেন।
+16260:                        ⚙️ Health & Economics Match Rules (হেলথ ও ইকোনোমি স্কোর রুলস)
+16266:                          <label className="text-[7px] font-mono text-purple-300 tracking-wider block uppercase font-bold">❌ Absent (না খেললে)</label>
+16313:                          <label className="text-[7px] font-mono text-purple-300 tracking-wider block uppercase font-bold">💀 Zero Kills (কিল না পেলে)</label>
+16360:                          <label className="text-[7px] font-mono text-purple-300 tracking-wider block uppercase font-bold">⚔️ Per Kill (প্রতি কিলের জন্য)</label>
+16407:                          <label className="text-[7px] font-mono text-purple-300 tracking-wider block uppercase font-bold">🏆 Booyah Reward (বুয়াহ বিজয়ী)</label>
+16454:                          <label className="text-[7px] font-mono text-purple-300 tracking-wider block uppercase font-bold">🥈 Runner-Up Reward (রানার-আপ)</label>
+16791:                          🎮 ম্যাচ শুরু হওয়ার পর প্রতিটি অ্যাকশনের জন্য স্কোরবোর্ড পরিবর্তন হবে। নিম্নে বিস্তারিত নিয়মাবলী তুলে করা হলো:
+16797:                        <h4 className="text-[9.5px] font-black text-slate-400 uppercase tracking-widest block leading-none">Match Scoring Metrics (স্কোরিং পয়েন্ট)</h4>
+16803:                              <span className="text-[9px] font-bold text-emerald-400 uppercase tracking-wider block">Per Kill Reward (প্রতি কিল বুস্ট)</span>
+16804:                              <span className="text-[8px] text-slate-400 block font-medium leading-none">শত্রু পরাস্ত করার বিশেষ উপহার</span>
+16807:                              <span className="text-[10.5px] font-extrabold text-emerald-400">হেলথ লেভেল +{perKillHealthBoost}%</span>
+16808:                              <span className="text-[10.5px] font-extrabold text-emerald-400">ইকোনমি স্কোর +{perKillEconomyBoost}</span>
+16815:                              <span className="text-[9px] font-bold text-red-400 uppercase tracking-wider block">Zero Kill Penalty (জিরো কিল পেনাল্টি)</span>
+16816:                              <span className="text-[8px] text-slate-400 block font-medium leading-none">ম্যাচে কোনো কিল করতে না পারলে</span>
+16819:                              <span className="text-[10.5px] font-extrabold text-red-400">হেলথ লেভেল -{zeroKillsHealthPenalty}%</span>
+16820:                              <span className="text-[10.5px] font-extrabold text-red-400">ইকোনমি স্কোর -{zeroKillsEconomyPenalty}</span>
+16827:                              <span className="text-[9px] font-bold text-amber-400 uppercase tracking-wider block">Booyah Champion (চ্যাম্পিয়ন বোনাস)</span>
+16828:                              <span className="text-[8px] text-slate-400 block font-medium leading-none">১ম স্থান অর্জনকারী দলের বুস্ট</span>
+16831:                              <span className="text-[10.5px] font-extrabold text-amber-400">হেলথ লেভেল +{booyahHealthBoost}%</span>
+16832:                              <span className="text-[10.5px] font-extrabold text-amber-400">ইকোনমি স্কোর +{booyahEconomyBoost}</span>
+16839:                              <span className="text-[9px] font-bold text-slate-300 uppercase tracking-wider block">Runner-Up Bonus (রানার-আপ বোনাস)</span>
+16840:                              <span className="text-[8px] text-slate-400 block font-medium leading-none">২য় স্থান অর্জনকারী দলের বুস্ট</span>
+16843:                              <span className="text-[10.5px] font-extrabold text-slate-300">হেলথ লেভেল +{runnerUpHealthBoost}%</span>
+16844:                              <span className="text-[10.5px] font-extrabold text-slate-300">ইকোনমি স্কোর +{runnerUpEconomyBoost}</span>
+16851:                              <span className="text-[9px] font-bold text-rose-400 uppercase tracking-wider block">No-Show Penalty (অনুপস্থিতি পেনাল্টি)</span>
+16852:                              <span className="text-[8px] text-slate-400 block font-medium leading-none">রেজিস্টার করে ম্যাচে অংশ না নিলে</span>
+16855:                              <span className="text-[10.5px] font-extrabold text-rose-400">হেলথ লেভেল -{absenceHealthPenalty}%</span>
+16856:                              <span className="text-[10.5px] font-extrabold text-rose-400">ইকোনমি স্কোর -{absenceEconomyPenalty}</span>
+16864:                        <h4 className="text-[9.5px] font-black text-slate-400 uppercase tracking-widest block leading-none">Arena Fairplay Rules (ফেয়ারপ্লে নির্দেশিকা)</h4>
+16868:                            <span className="font-extrabold text-purple-400">১. ফেয়ারপ্লে সিস্টেম:</span> সমস্ত টুর্নামেন্ট আমাদের উন্নত অটোমেটেড ফেয়ারপ্লে এন্টি-চিট সিস্টেম দ্বারা নিরীক্ষণ করা হয়। হ্যাকিং বা ক্ষতিকারক কার্যকলাপ স্থায়ী অ্যাকাউন্ট ব্যান করতে পারে।
+16871:                            <span className="font-extrabold text-purple-400">২. রুম আইডি ও পাসওয়ার্ড:</span> ম্যাচ শুরু হওয়ার ১৫ মিনিট পূর্বে ম্যাচ ড্যাশবোর্ডে রুম আইডি এবং পাসওয়ার্ড প্রকাশ করা হবে। নির্ধারিত সময়ের পূর্বে অবশ্যই প্রবেশ করতে হবে।
+16874:                            <span className="font-extrabold text-purple-400">৩. এলিজিবিলিটি রিকোয়ারমেন্ট:</span> জয়েন করার সময় চেক লিস্টের সমস্ত রিকোয়ারমেন্ট পূরণ করতে হবে। হেলথ ঘাটতি থাকলে ম্যাচ খেলতে দেওয়া হবে না।
+17116:                                    হেলথ লেভেল {previewHealthDelta >= 0 ? '+' : ''}{previewHealthDelta}%
+17119:                                    ইকোনমি স্কোর {previewEconomyDelta >= 0 ? '+' : ''}{previewEconomyDelta}
+17264:                          ফলাফল ঘোষিত (Completed)
+17289:                        <span className="text-[8.5px] text-purple-300 uppercase block font-extrabold tracking-wider font-mono">🗺️ ম্যাপ (Map Location)</span>
+17293:                        <span className="text-[8.5px] text-purple-300 uppercase block font-extrabold tracking-wider font-mono">⏱️ শুরুর সময় (Time)</span>
+17297:                        <span className="text-[8.5px] text-purple-300 uppercase block font-extrabold tracking-wider font-mono">⚔️ গেম ক্যাটাগরি (Game)</span>
+17302:                        <span className="text-[8.5px] text-slate-400 uppercase block font-extrabold tracking-wider font-mono">🪙 এন্ট্রি ফি (Entry Fee)</span>
+17306:                        <span className="text-[8.5px] text-slate-400 uppercase block font-extrabold tracking-wider font-mono">🪙 কিল বাউন্টি (Per Kill)</span>
+17310:                        <span className="text-[8.5px] text-slate-400 uppercase block font-extrabold tracking-wider font-mono">🏆 মোট স্লট (Joined Slots)</span>
+17321:                        <span className="text-[8.5px] font-mono text-yellow-400 font-extrabold uppercase tracking-widest block leading-none">👑 BOOYAH CHAMPION (১ম স্থান) 👑</span>
+17334:                        <span className="text-[8.5px] font-mono text-slate-300 font-extrabold uppercase tracking-widest block leading-none">🥈 1ST RUNNER UP (২য় স্থান)</span>
+17348:                          📸 OFFICIAL MATCH RESULTS PROOF (স্ক্রিনশট প্রুফ)

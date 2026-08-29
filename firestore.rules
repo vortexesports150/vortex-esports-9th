@@ -1,0 +1,475 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Global safety net - default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Common Global Helpers
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+    function incoming() {
+      return request.resource.data;
+    }
+    function existing() {
+      return resource.data;
+    }
+
+    // User document validation helper
+    function isValidUser(data) {
+      return data.userId == request.auth.uid
+        && data.email is string 
+        && data.email.size() <= 200
+        && (!('displayName' in data) || (data.displayName is string && data.displayName.size() <= 150))
+        && (!('photoURL' in data) || data.photoURL == null || (data.photoURL is string && data.photoURL.size() <= 200000))
+        && (data.role == 'user' || data.role == 'admin')
+        && data.createdAt == request.time
+        && (data.updatedAt == request.time || data.updatedAt == data.createdAt);
+    }
+
+    // Tournament validation helper
+    function isValidTournament(data) {
+      return data.id is string && data.id.size() <= 128
+        && data.title is string && data.title.size() <= 150
+        && data.maxPlayers is int
+        && data.perKill is int
+        && data.booyahPrize is int
+        && data.entryFee is int
+        && data.map is string && data.map.size() <= 100
+        && data.time is string && data.time.size() <= 100
+        && data.playerEligibly is string && data.playerEligibly.size() <= 50
+        && data.joinedCount is int
+        && data.joinedPlayers is list
+        && (data.status == 'Open' || data.status == 'Ended')
+        && data.updatedAt == request.time;
+    }
+
+    // Tournament Support Message validation helper
+    function isValidTournamentSupportMessage(data) {
+      return data.text is string && data.text.size() <= 2000
+        && data.senderId == request.auth.uid
+        && data.senderName is string && data.senderName.size() <= 200
+        && data.senderRole is string && data.senderRole.size() <= 50
+        && data.createdAt == request.time
+        && (!('senderPhoto' in data) || (data.senderPhoto is string && data.senderPhoto.size() <= 2000));
+    }
+
+    // Lone Wolf Chat Message validation helper
+    function isValidLoneWolfChatMessage(data) {
+      return data.text is string && data.text.size() <= 2000
+        && data.senderId == request.auth.uid
+        && data.senderName is string && data.senderName.size() <= 200
+        && data.senderRole is string && data.senderRole.size() <= 50
+        && data.createdAt == request.time
+        && (!('senderPhoto' in data) || (data.senderPhoto is string && data.senderPhoto.size() <= 2000));
+    }
+
+    // Helper to check if is any admin
+    function isAnyAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email == "vortexesports150@gmail.com" ||
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.get('role', '') in ['admin', 'main_admin', 'super_admin', 'sub_admin', 'pro_host']) ||
+        (exists(/databases/$(database)/documents/admin_roles/$(request.auth.token.email)) && 
+         get(/databases/$(database)/documents/admin_roles/$(request.auth.token.email)).data.get('suspended', false) == false)
+      );
+    }
+
+    // Helper to check if main admin (including founder)
+    function isMainAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email == "vortexesports150@gmail.com" ||
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.get('role', '') in ['admin', 'main_admin', 'super_admin']) ||
+        (exists(/databases/$(database)/documents/admin_roles/$(request.auth.token.email)) && 
+         get(/databases/$(database)/documents/admin_roles/$(request.auth.token.email)).data.role == "main_admin" && 
+         get(/databases/$(database)/documents/admin_roles/$(request.auth.token.email)).data.get('suspended', false) == false)
+      );
+    }
+
+    // Rules for admin activities logging
+    match /admin_logs/{logId} {
+      allow read, list: if isMainAdmin();
+      allow create: if isAnyAdmin() && isValidId(logId);
+      allow update, delete: if false;
+    }
+
+    // Rules for the admin_roles collection
+    match /admin_roles/{email} {
+      allow read: if isSignedIn();
+      allow write: if isSignedIn() && (
+        request.auth.token.email == "vortexesports150@gmail.com" ||
+        get(/databases/$(database)/documents/admin_roles/$(request.auth.token.email)).data.role == "main_admin"
+      );
+    }
+
+    // Rules for the users collection
+    match /users/{userId} {
+      allow get, list: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && (
+        isAnyAdmin() ||
+        (
+          // User updating their own profile - cannot elevate role or override suspension
+          isOwner(userId) && 
+          (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['role', 'isSuspended', 'suspended']))
+        ) ||
+        // User transferring tokens to recipient (only tokens and updatedAt affected)
+        (
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['tokens', 'updatedAt'])
+        )
+      );
+      allow delete: if isMainAdmin();
+    }
+
+    match /users/{userId}/notifications/{notificationId} {
+      allow read: if isOwner(userId) || isAnyAdmin();
+      allow write: if isSignedIn();
+    }
+
+    match /users/{userId}/tokenTransactions/{historyId} {
+      allow read: if isOwner(userId) || isAnyAdmin();
+      allow write: if isSignedIn();
+    }
+
+    match /users/{userId}/token_history/{historyId} {
+      allow read: if isOwner(userId) || isAnyAdmin();
+      allow write: if isSignedIn();
+    }
+
+    match /users/{userId}/daily_stats/{statId} {
+      allow read: if isOwner(userId) || isAnyAdmin();
+      allow write: if isOwner(userId) || isAnyAdmin();
+    }
+
+    match /device_stats/{deviceId}/daily_stats/{statId} {
+      allow read, write: if true;
+    }
+
+    // Rules for the tournaments collection
+    match /tournaments/{tournamentId} {
+      allow read: if true;
+      allow create, update, delete: if isSignedIn();
+    }
+
+    match /tournaments_freefire/{tournamentId} {
+      allow read: if true;
+      allow create, update, delete: if isSignedIn();
+    }
+
+    match /tournaments_pubg/{tournamentId} {
+      allow read: if true;
+      allow create, update, delete: if isSignedIn();
+    }
+
+    match /tournaments_ludo/{tournamentId} {
+      allow read: if true;
+      allow create, update, delete: if isSignedIn();
+    }
+
+    match /monthlyWinners/{monthId} {
+      allow read: if true;
+      allow create, update, delete: if isAnyAdmin();
+    }
+
+    match /system/{document=**} {
+      allow read: if true;
+      allow write: if isMainAdmin();
+    }
+
+    match /admin_notifications/{notificationId} {
+      allow create: if isSignedIn();
+      allow read, update, delete: if isMainAdmin();
+    }
+
+    match /system/wallets {
+      allow read: if true;
+      allow write, update: if isSignedIn();
+    }
+
+    match /system/upazila_sponsor_config {
+      allow read: if true;
+      allow write: if isAnyAdmin();
+    }
+
+    match /system/tournament_ads_config {
+      allow read: if true;
+      allow write: if isAnyAdmin();
+    }
+
+    match /tournament_sponsor_ads/{adId} {
+      allow read, list: if true;
+      allow create, update, delete: if isAnyAdmin();
+    }
+
+    match /tournament_ads_history/{historyId} {
+      allow read: if isAnyAdmin();
+      allow write, create: if isSignedIn();
+    }
+
+    match /upazila_sponsor_ads/{adId} {
+      allow read, list: if true;
+      allow create, update, delete: if isAnyAdmin();
+    }
+
+    match /system/wallets/history/{historyId} {
+      allow read: if isAnyAdmin();
+      allow write, create: if isSignedIn();
+    }
+
+    match /system_config/{configId} {
+      allow read: if true;
+      allow write: if isMainAdmin();
+    }
+
+    match /settings/{settingId} {
+      allow get, list: if true;
+      allow create, update, delete: if isSignedIn() && (request.auth.token.email == "vortexesports150@gmail.com" || isMainAdmin());
+    }
+
+    // Rules for teams
+    match /teams/{teamId} {
+      allow read, list: if isSignedIn();
+      allow create, update, delete: if isSignedIn();
+    }
+
+    // Rules for team invitations
+    match /team_invitations/{invitationId} {
+      allow read, list: if isSignedIn();
+      allow create, update, delete: if isSignedIn();
+    }
+
+    match /match_history_results/{matchId} {
+      allow read: if true;
+      allow write: if isSignedIn();
+    }
+
+    // Rules for ad_campaigns
+    match /ad_campaigns/{campaignId} {
+      allow read, list: if isSignedIn();
+      allow create: if isSignedIn();
+      allow update: if isSignedIn(); // allow any signed in user to claim views, which updates viewsCount
+      allow delete: if isSignedIn() && (resource.data.advertiserId == request.auth.uid || isAnyAdmin());
+    }
+
+    match /ad_campaigns/{campaignId}/views/{viewId} {
+      allow read, list: if isSignedIn();
+      allow create: if isSignedIn();
+    }
+    match /upazila_leagues/{leagueId} {
+      allow read: if true;
+      allow create, update, delete: if isSignedIn();
+    }
+    
+    match /upazila_leagues/{leagueId}/groups/{groupId} {
+      allow read: if true;
+      allow write: if isSignedIn();
+    }
+
+    match /upazila_leagues/{leagueId}/meta/{metaId} {
+      allow read: if true;
+      allow write: if isAnyAdmin();
+    }
+
+    match /upazila_league_squads/{squadId} {
+      allow read: if true;
+      allow write: if isSignedIn();
+    }
+
+    match /upazila_league_settings/{settingId} {
+      allow read: if true;
+      allow write: if isSignedIn();
+    }
+
+    match /co_hosts/{coHostId} {
+      allow read, write: if true;
+    }
+
+    match /host_brands/{hostId} {
+      allow read, write: if true;
+    }
+
+    // Pro Host Rules
+    match /pro_host_settings/{configId} {
+      allow read: if true;
+      allow write: if isMainAdmin();
+    }
+
+    match /pro_hosted_leagues/{leagueId} {
+      allow read, list: if true;
+      allow create: if isSignedIn();
+      allow update, delete: if isSignedIn();
+    }
+
+    match /pro_league_squads/{squadId} {
+      allow read, list: if true;
+      allow create, update, delete: if isSignedIn();
+    }
+
+    match /pro_league_matches/{matchId} {
+      allow read, list: if true;
+      allow create, update, delete: if isSignedIn();
+    }
+
+    match /pro_league_schedule_matches/{matchId} {
+      allow read, list: if true;
+      allow create, update, delete: if isSignedIn();
+    }
+
+    match /league_match_chats/{document=**} {
+      allow read, list: if isSignedIn();
+      allow create, update, delete: if isSignedIn();
+    }
+
+    match /pro_host_sponsor_ads/{adId} {
+      allow read, list: if true;
+      allow create: if isSignedIn();
+      allow update, delete: if isSignedIn();
+    }
+
+    match /pro_host_subscriptions/{subId} {
+      allow read, list: if isSignedIn();
+      allow create, update, delete: if isSignedIn();
+    }
+
+    match /host_wallets/{hostId} {
+      allow read, list, get: if isSignedIn();
+      allow create, update, delete: if isSignedIn();
+    }
+
+    match /wallet_history/{historyId} {
+      allow read, write, create: if isSignedIn();
+    }
+
+    match /pro_host_wallet_history/{historyId} {
+      allow read, write, create: if isSignedIn();
+    }
+
+    match /host_suspensions/{suspensionId} {
+      allow read, list, get, create, update, delete: if isSignedIn();
+    }
+
+    match /admin_messages/{messageId} {
+      allow read, list, get, update, delete: if isSignedIn();
+      allow create: if true;
+    }
+
+    // Lone Wolf 1v1 Matches
+    match /lone_wolf_matches/{matchId} {
+      allow read, list, get: if true;
+      allow create, update, delete: if isSignedIn();
+    }
+
+    match /lone_wolf_chats/{matchId}/messages/{messageId} {
+      allow read, list, get: if isSignedIn();
+      allow create: if isSignedIn() && isValidLoneWolfChatMessage(incoming());
+      allow update, delete: if isAnyAdmin();
+    }
+
+    match /tournament_support_chats/{tournamentId}/messages/{messageId} {
+      allow read, list, get: if isSignedIn();
+      allow create: if isSignedIn() && isValidTournamentSupportMessage(incoming());
+      allow update, delete: if isAnyAdmin();
+    }
+
+    // User Follows
+    match /user_follows/{followId} {
+      allow read, list, get: if true;
+      allow create, update, delete: if isSignedIn();
+    }
+
+    // Pulse Community Feature Rules
+    match /pulse_posts/{postId} {
+      allow read, list, get: if true;
+      allow create, update: if isSignedIn();
+      allow delete: if isSignedIn() && (
+        request.auth.token.email == "vortexesports150@gmail.com" || 
+        isOwner(resource.data.get('userId', '')) || 
+        request.auth.token.email == resource.data.get('userId', '') ||
+        isAnyAdmin()
+      );
+      
+      match /comments/{commentId} {
+        allow read, list, get: if true;
+        allow create, update: if isSignedIn();
+        allow delete: if isSignedIn() && (
+          request.auth.token.email == "vortexesports150@gmail.com" ||
+          isOwner(resource.data.get('userId', '')) || 
+          request.auth.token.email == resource.data.get('userId', '') ||
+          isAnyAdmin()
+        );
+      }
+    }
+
+    match /pulse_reports/{reportId} {
+      allow read, list, get: if isAnyAdmin();
+      allow create: if isSignedIn();
+      allow update, delete: if isAnyAdmin();
+    }
+
+    match /post_reports/{reportId} {
+      allow read, list, get: if isAnyAdmin();
+      allow create: if isSignedIn();
+      allow update, delete: if isAnyAdmin();
+    }
+
+    // Squads collection
+    match /squads/{squadId} {
+      allow read, list: if isSignedIn();
+      allow create, update, delete: if isSignedIn();
+    }
+
+    // Match Results collection
+    match /match_results/{resultId} {
+      allow read: if true;
+      allow write: if isSignedIn();
+    }
+
+    // Upazila Sponsors & Tournament Sponsors & Ads
+    match /upazila_sponsors/{sponsorId} {
+      allow read: if true;
+      allow write: if isAnyAdmin();
+    }
+
+    match /tournament_sponsors/{sponsorId} {
+      allow read: if true;
+      allow write: if isAnyAdmin();
+    }
+
+    match /ads/{adId} {
+      allow read: if true;
+      allow write: if isAnyAdmin();
+    }
+
+    // System Counters for atomic sequential PlayVear ID and other auto-increments
+    match /system_counters/{counterId} {
+      allow read, write: if isSignedIn() || isAnyAdmin();
+    }
+
+    // YouTube Giveaway Collection
+    match /giveaways/{giveawayId} {
+      allow read, list, get: if isSignedIn();
+      allow create, update, delete: if isSignedIn();
+    }
+
+    match /pulsePosts/{postId} {
+      allow read, list, get: if true;
+      allow create, update, delete: if isSignedIn();
+    }
+
+    // Platform Expenses Collection
+    match /platform_expenses/{expenseId} {
+      allow read, list, get: if isSignedIn();
+      allow create, update, delete: if isSignedIn();
+    }
+  }
+}

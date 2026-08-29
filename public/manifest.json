@@ -1,0 +1,22 @@
+{
+  "name": "PlayVear Esports BD",
+  "short_name": "PlayVear",
+  "description": "Next-Gen Competitive Esports Tournament Platform",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#03050c",
+  "theme_color": "#03050c",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/public/bd_jungle_fireworks.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg"
+    },
+    {
+      "src": "/public/bd_jungle_fireworks.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}

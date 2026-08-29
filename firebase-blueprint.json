@@ -1,0 +1,391 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "User profile with game stats and authentication details.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "The unique Firebase Authentication UID." },
+        "email": { "type": "string", "format": "email", "description": "The user's Google email address." },
+        "displayName": { "type": "string", "description": "The user's display name from Google." },
+        "photoURL": { "type": "string", "description": "The user's profile picture URL." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Date and time when the profile was created." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Date and time when the profile was last updated." },
+        "role": { "type": "string", "enum": ["user", "admin"], "description": "The user's access level." }
+      },
+      "required": ["userId", "email", "displayName", "createdAt", "updatedAt", "role"]
+    },
+    "Tournament": {
+      "title": "Esports Tournament",
+      "description": "Esports match stats, participants, kills, and state.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "The unique tournament identifier." },
+        "title": { "type": "string", "description": "The match title such as 'br solo'." },
+        "maxPlayers": { "type": "integer", "description": "Total slots available (e.g., 48)." },
+        "perKill": { "type": "integer", "description": "Reward tokens per kill (e.g., 40)." },
+        "booyahPrize": { "type": "integer", "description": "Reward tokens for winning match (e.g., 200)." },
+        "entryFee": { "type": "integer", "description": "Token fee to enter the tournament (e.g., 50)." },
+        "map": { "type": "string", "description": "The map played on (e.g., Bermuda)." },
+        "time": { "type": "string", "description": "The scheduled time of the match." },
+        "playerEligibly": { "type": "string", "description": "Player eligibility flag (No/Yes)." },
+        "joinedCount": { "type": "integer", "description": "Number of players currently enrolled." },
+        "joinedPlayers": { "type": "array", "description": "List of joined user statistics and details (custom map list)." },
+        "status": { "type": "string", "enum": ["Open", "Ended"], "description": "Status of the match (Open or Ended)." },
+        "announcements": { "type": "array", "description": "List of announcements made by host, co-host, owner admin, or super admin." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Last update timestamp." }
+      },
+      "required": ["id", "title", "maxPlayers", "perKill", "booyahPrize", "entryFee", "map", "time", "playerEligibly", "joinedCount", "joinedPlayers", "status", "updatedAt"]
+    },
+    "AdminLog": {
+      "title": "Admin Action Log",
+      "description": "Log of administrative actions taken by system coordinators.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique log identifier." },
+        "adminEmail": { "type": "string", "description": "Email address of the admin." },
+        "adminRole": { "type": "string", "description": "The administrative role of the admin." },
+        "actionType": { "type": "string", "description": "High level action type (e.g. UPDATE_MATCH, DELETE_MATCH, DISTRIBUTE_PRIZES, ADD_ADMIN, REVOKE_ADMIN)." },
+        "details": { "type": "string", "description": "Detailed readable description of the action." },
+        "timestamp": { "type": "string", "format": "date-time", "description": "When the action took place." }
+      },
+      "required": ["id", "adminEmail", "adminRole", "actionType", "details", "timestamp"]
+    },
+    "GlobalSettings": {
+      "title": "Global System Settings",
+      "description": "Dynamic configurations such as customizable purchase rates for health, stars, and level-ups.",
+      "type": "object",
+      "properties": {
+        "health": { "type": "integer", "description": "Cost in tokens for 1% health upgrade." },
+        "star": { "type": "integer", "description": "Cost in tokens for 1 star purchase." },
+        "level": { "type": "integer", "description": "Cost in tokens for 1 level up." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Last update timestamp." }
+      },
+      "required": ["health", "star", "level"]
+    },
+    "Team": {
+      "title": "Esports Team/Squad",
+      "description": "Full team/squad profile with name, cover banner, leader, and up to 6 members.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique team ID (usually captain's userId)." },
+        "name": { "type": "string", "description": "Team name." },
+        "coverUrl": { "type": "string", "description": "Cover banner photo URL." },
+        "leaderId": { "type": "string", "description": "UID of the captain." },
+        "leaderEmail": { "type": "string", "description": "Email of the captain." },
+        "leaderName": { "type": "string", "description": "Display name of the captain." },
+        "memberEmails": { "type": "array", "description": "List of emails of all squad members for easy indexing." },
+        "members": { "type": "array", "description": "List of members details (name, email, uid, role, status, etc.)." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the team was created." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "When the team was last updated." }
+      },
+      "required": ["id", "name", "leaderId", "leaderEmail", "leaderName", "memberEmails", "members", "createdAt", "updatedAt"]
+    },
+    "TeamInvitation": {
+      "title": "Team Invitation",
+      "description": "Team invite request sent to a friend's Gmail address.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique invitation ID." },
+        "teamId": { "type": "string", "description": "ID of the team." },
+        "teamName": { "type": "string", "description": "Name of the team." },
+        "senderId": { "type": "string", "description": "UID of the team captain sending the invite." },
+        "senderEmail": { "type": "string", "description": "Email of the captain." },
+        "senderName": { "type": "string", "description": "Name of the captain." },
+        "recipientEmail": { "type": "string", "format": "email", "description": "Email of the friend being invited." },
+        "status": { "type": "string", "enum": ["pending", "accepted", "declined"], "description": "Current state of invitation." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the invite was sent." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Last updated timestamp." }
+      },
+      "required": ["id", "teamId", "teamName", "senderId", "senderEmail", "senderName", "recipientEmail", "status", "createdAt", "updatedAt"]
+    },
+    "DeviceStats": {
+      "title": "Device Stats",
+      "description": "Daily ad views tracked for a specific device.",
+      "type": "object",
+      "properties": {
+        "date": { "type": "string", "description": "The date of the stats (YYYY-MM-DD)." },
+        "count": { "type": "integer", "description": "Number of ads watched on this device today." },
+        "watchedIds": { "type": "array", "description": "List of campaign IDs watched on this device today." }
+      },
+      "required": ["date", "count", "watchedIds"]
+    },
+    "UpazilaSponsorAd": {
+      "title": "Upazila League Sponsor Ad",
+      "description": "Banner and sponsor details for upazila league sponsor slots.",
+      "type": "object",
+      "properties": {
+        "brandName": { "type": "string", "description": "Name of the sponsor brand." },
+        "logoUrl": { "type": "string", "description": "Image/logo URL for the sponsor banner." },
+        "targetUrl": { "type": "string", "description": "Destination link when clicked." },
+        "slotIndex": { "type": "integer", "description": "Slot position 0 to 7." },
+        "durationDays": { "type": "integer", "description": "Duration in days." },
+        "costTokens": { "type": "integer", "description": "Total cost in tokens." },
+        "status": { "type": "string", "enum": ["active", "paused", "expired", "pending", "rejected"], "description": "Ad campaign status." },
+        "sponsorUid": { "type": "string", "description": "User ID of the sponsor." },
+        "sponsorEmail": { "type": "string", "description": "Email of the sponsor." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp when ad was submitted." }
+      },
+      "required": ["brandName", "logoUrl", "slotIndex", "status", "sponsorUid", "createdAt"]
+    },
+    "TournamentSponsorAd": {
+      "title": "Tournament Sponsor Ad",
+      "description": "Ad slots displayed on the home screen/tournament hub header.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "slotIndex": { "type": "integer" },
+        "status": { "type": "string", "enum": ["empty", "pending", "active", "rejected"] },
+        "logoUrl": { "type": "string" },
+        "targetUrl": { "type": "string" },
+        "durationDays": { "type": "integer" },
+        "costTokens": { "type": "integer" },
+        "sponsorUid": { "type": "string" },
+        "sponsorEmail": { "type": "string" },
+        "sponsorName": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "approvedAt": { "type": "string", "format": "date-time" },
+        "expiryAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["slotIndex", "status", "createdAt"]
+    },
+    "TournamentAdsHistory": {
+      "title": "Tournament Ads Financial History",
+      "description": "Records of token transactions related to tournament sponsor ads.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "type": { "type": "string", "enum": ["income", "refund"] },
+        "amount": { "type": "integer" },
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "slotIndex": { "type": "integer" },
+        "monthKey": { "type": "string", "description": "Format: YYYY-MM" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "details": { "type": "string" }
+      },
+      "required": ["type", "amount", "userId", "monthKey", "timestamp"]
+    },
+    "HostWallet": {
+      "title": "Host Locked Security Wallet",
+      "description": "Security wallet holding locked league tokens for competitive matches.",
+      "type": "object",
+      "properties": {
+        "hostId": { "type": "string", "description": "The UID of the esports host." },
+        "balance": { "type": "integer", "description": "Tokens currently deposited and locked/unlocked in this wallet." },
+        "isLocked": { "type": "boolean", "description": "Whether the wallet is currently locked from withdrawals by the administration." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "When the wallet was first initialized." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "When the wallet was last updated." }
+      },
+      "required": ["hostId", "balance", "isLocked"]
+    },
+    "MatchResult": {
+      "title": "Pro League Match Result",
+      "description": "Details of a match result submitted for approval.",
+      "type": "object",
+      "properties": {
+        "leagueId": { "type": "string" },
+        "matchId": { "type": "string" },
+        "roomId": { "type": "string" },
+        "roomPassword": { "type": "string" },
+        "youtubeLiveLink": { "type": "string" },
+        "screenshotUrl": { "type": "string" },
+        "status": { "type": "string", "enum": ["scheduled", "live", "completed"] },
+        "reviewStatus": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "scoreA": { "type": "integer" },
+        "scoreB": { "type": "integer" },
+        "winner": { "type": "string" },
+        "playerStats": { "type": "object" },
+        "submittedBy": { "type": "string" },
+        "submittedAt": { "type": "string", "format": "date-time" },
+        "approvedBy": { "type": "string" },
+        "approvedAt": { "type": "string", "format": "date-time" },
+        "statsApplied": { "type": "boolean" }
+      },
+      "required": ["leagueId", "matchId", "reviewStatus"]
+    },
+    "TournamentSupportMessage": {
+      "title": "Tournament Support Message",
+      "description": "A single chat message exchanged between players/hosts and administrators regarding a specific tournament.",
+      "type": "object",
+      "properties": {
+        "text": { "type": "string", "description": "The text content of the support message." },
+        "senderId": { "type": "string", "description": "The unique user ID of the sender." },
+        "senderName": { "type": "string", "description": "The display name of the sender." },
+        "senderPhoto": { "type": "string", "description": "Profile photo URL of the sender." },
+        "senderRole": { "type": "string", "enum": ["player", "captain", "host", "system_admin"], "description": "The role of the message sender." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp when the message was sent." }
+      },
+      "required": ["text", "senderId", "senderName", "senderRole", "createdAt"]
+    },
+    "LoneWolfMatch": {
+      "title": "Lone Wolf 1v1 Match",
+      "description": "Lone Wolf 1vs1 competitive arena match details and participants.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "matchNumber": { "type": "string" },
+        "title": { "type": "string" },
+        "game": { "type": "string" },
+        "mode": { "type": "string" },
+        "hostId": { "type": "string" },
+        "hostName": { "type": "string" },
+        "hostEmail": { "type": "string" },
+        "entryFee": { "type": "integer" },
+        "prizePool": { "type": "integer" },
+        "depositLocked": { "type": "integer" },
+        "player1": { "type": "object" },
+        "player2": { "type": "object" },
+        "joinedCount": { "type": "integer" },
+        "matchDate": { "type": "string" },
+        "matchTime": { "type": "string" },
+        "status": { "type": "string", "enum": ["Registration", "Ongoing", "Completed", "Cancelled"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "title", "hostId", "hostEmail", "prizePool", "depositLocked", "status"]
+    },
+    "LoneWolfChatMessage": {
+      "title": "Lone Wolf Chat Message",
+      "description": "A single chat message exchanged between players, hosts, and admins regarding a specific Lone Wolf match.",
+      "type": "object",
+      "properties": {
+        "text": { "type": "string", "description": "The text content of the message." },
+        "senderId": { "type": "string", "description": "The unique user ID of the sender." },
+        "senderName": { "type": "string", "description": "The display name of the sender." },
+        "senderPhoto": { "type": "string", "description": "Profile photo URL of the sender." },
+        "senderRole": { "type": "string", "enum": ["player", "host", "admin"], "description": "The role of the message sender." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp when the message was sent." }
+      },
+      "required": ["text", "senderId", "senderName", "senderRole", "createdAt"]
+    },
+    "UserFollow": {
+      "title": "User Follow Relationship",
+      "description": "Follow relationship linking a follower user ID to a host user ID.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "UID of the user who is following." },
+        "hostId": { "type": "string", "description": "UID of the host being followed." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp when follow relationship was created." }
+      },
+      "required": ["userId", "hostId"]
+    },
+    "SystemConfig": {
+      "title": "System Configuration & Announcements",
+      "description": "System-wide settings such as profile screen headline news, tournament profit percentages, and ads pricing.",
+      "type": "object",
+      "properties": {
+        "enabled": { "type": "boolean", "description": "Flag determining if the headline is displayed." },
+        "badgeLabel": { "type": "string", "description": "Tag badge such as HEADLINE, NOTICE, or URGENT." },
+        "headlineText": { "type": "string", "description": "Announcement text message." },
+        "whatsappNumber": { "type": "string", "description": "Support contact WhatsApp phone number." },
+        "whatsappPrefillText": { "type": "string", "description": "Pre-filled starter message when tapping WhatsApp." },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Last updated timestamp." },
+        "updatedBy": { "type": "string", "description": "Email or ID of admin who updated the config." }
+      }
+    },
+    "PlatformExpense": {
+      "title": "Platform Expense Record",
+      "description": "Log of financial expenses incurred by the platform for marketing, server hosting, prizes, salaries, etc.",
+      "type": "object",
+      "properties": {
+        "purpose": { "type": "string" },
+        "amount": { "type": "number" },
+        "currency": { "type": "string" },
+        "category": { "type": "string", "enum": ["Marketing & Ads", "Server & Infrastructure", "Tournaments & Prizes", "Operations & Salaries", "Miscellaneous"] },
+        "expenseDate": { "type": "string" },
+        "monthKey": { "type": "string" },
+        "notes": { "type": "string" },
+        "addedByEmail": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["purpose", "amount", "currency", "category", "expenseDate", "monthKey", "createdAt"]
+    }
+  },
+  "firestore": {
+    "system_config/{configId}": {
+      "schema": "SystemConfig",
+      "description": "Global system configurations, percentage settings, and profile headline announcements."
+    },
+    "user_follows/{followId}": {
+      "schema": "UserFollow",
+      "description": "User follow records for hosts."
+    },
+    "lone_wolf_matches/{matchId}": {
+      "schema": "LoneWolfMatch",
+      "description": "Lone wolf 1v1 competitive arena matches."
+    },
+    "lone_wolf_chats/{matchId}/messages/{messageId}": {
+      "schema": "LoneWolfChatMessage",
+      "description": "Real-time communication support chat messages for individual Lone Wolf matches."
+    },
+    "tournament_support_chats/{tournamentId}/messages/{messageId}": {
+      "schema": "TournamentSupportMessage",
+      "description": "Direct communication support channel between organizers/players and administrators for a tournament."
+    },
+    "tournament_sponsor_ads/{adId}": {
+      "schema": "TournamentSponsorAd",
+      "description": "Sponsor slots for the tournament/home header."
+    },
+    "tournament_ads_history/{historyId}": {
+      "schema": "TournamentAdsHistory",
+      "description": "Transaction logs for tournament ads."
+    },
+    "upazila_sponsor_ads/{adId}": {
+      "schema": "UpazilaSponsorAd",
+      "description": "Sponsor banner slots displayed in the Upazila League hub."
+    },
+    "device_stats/{deviceId}/daily_stats/{statId}": {
+      "schema": "DeviceStats",
+      "description": "Tracks daily ad watching statistics at the device level to prevent multi-account exploitation."
+    },
+    "users/{userId}": {
+      "schema": "User",
+      "description": "User profiles managed via Firebase Auth and Firestore."
+    },
+    "tournaments/{tournamentId}": {
+      "schema": "Tournament",
+      "description": "Tournament listings, details, and dynamic match scores."
+    },
+    "admin_logs/{logId}": {
+      "schema": "AdminLog",
+      "description": "Activities of administrators, visible by main administrators."
+    },
+    "settings/{settingId}": {
+      "schema": "GlobalSettings",
+      "description": "Global customizable settings like token purchase costs."
+    },
+    "teams/{teamId}": {
+      "schema": "Team",
+      "description": "Esports teams managed by captains."
+    },
+    "team_invitations/{invitationId}": {
+      "schema": "TeamInvitation",
+      "description": "Invitations sent to other players to join a team."
+    },
+    "host_wallets/{hostId}": {
+      "schema": "HostWallet",
+      "description": "Host locked/unlocked token security wallets for pro hosting."
+    },
+    "pro_league_schedule_matches/{matchId}": {
+      "schema": "MatchResult",
+      "description": "Match overrides including room details, status, and scores."
+    },
+    "pro_league_match_results/{resultId}": {
+      "schema": "MatchResult",
+      "description": "Detailed match results for approval workflow."
+    },
+    "wallet_history/{historyId}": {
+      "schema": "TournamentAdsHistory",
+      "description": "General wallet history logs."
+    },
+    "pro_host_wallet_history/{historyId}": {
+      "schema": "TournamentAdsHistory",
+      "description": "Pro host wallet history logs."
+    },
+    "platform_expenses/{expenseId}": {
+      "schema": "PlatformExpense",
+      "description": "Log of platform expenses tracked by admins."
+    }
+  }
+}

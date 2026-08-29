@@ -1,0 +1,140 @@
+
+> react-example@0.0.0 lint
+> tsc --noEmit
+
+src/App.tsx(5612,8): error TS17008: JSX element 'AnimatePresence' has no corresponding closing tag.
+src/App.tsx(6848,45): error TS1109: Expression expected.
+src/App.tsx(6848,47): error TS17002: Expected corresponding JSX closing tag for 'div'.
+src/App.tsx(6853,42): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/App.tsx(6924,39): error TS1005: ')' expected.
+src/App.tsx(6934,35): error TS1128: Declaration or statement expected.
+src/App.tsx(6935,33): error TS1005: ')' expected.
+src/App.tsx(6937,29): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/App.tsx(7261,29): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/App.tsx(7261,31): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/App.tsx(7262,27): error TS17002: Expected corresponding JSX closing tag for 'motion.div'.
+src/App.tsx(7263,24): error TS1005: '}' expected.
+src/App.tsx(7264,21): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/App.tsx(7264,25): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/App.tsx(7266,19): error TS17015: Expected corresponding closing tag for JSX fragment.
+src/App.tsx(7266,29): error TS1382: Unexpected token. Did you mean `{'>'}` or `&gt;`?
+src/App.tsx(7267,16): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/App.tsx(8480,35): error TS17002: Expected corresponding JSX closing tag for 'div'.
+src/App.tsx(8496,31): error TS1005: ')' expected.
+src/App.tsx(8529,29): error TS1128: Declaration or statement expected.
+src/App.tsx(8728,23): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/App.tsx(8728,27): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/App.tsx(8732,21): error TS1005: ')' expected.
+src/App.tsx(8786,19): error TS1005: ')' expected.
+src/App.tsx(9116,23): error TS2657: JSX expressions must have one parent element.
+src/App.tsx(9600,62): error TS1109: Expression expected.
+src/App.tsx(10243,35): error TS1109: Expression expected.
+src/App.tsx(10243,37): error TS17002: Expected corresponding JSX closing tag for 'div'.
+src/App.tsx(10244,35): error TS1005: ')' expected.
+src/App.tsx(10244,37): error TS17002: Expected corresponding JSX closing tag for 'motion.div'.
+src/App.tsx(10502,33): error TS1005: ')' expected.
+src/App.tsx(10502,35): error TS17002: Expected corresponding JSX closing tag for 'AnimatePresence'.
+src/App.tsx(11066,33): error TS17002: Expected corresponding JSX closing tag for 'motion.div'.
+src/App.tsx(11068,27): error TS1128: Declaration or statement expected.
+src/App.tsx(11069,25): error TS1109: Expression expected.
+src/App.tsx(11069,26): error TS1128: Declaration or statement expected.
+src/App.tsx(11153,23): error TS1128: Declaration or statement expected.
+src/App.tsx(11154,21): error TS1109: Expression expected.
+src/App.tsx(11154,22): error TS1128: Declaration or statement expected.
+src/App.tsx(12003,19): error TS1128: Declaration or statement expected.
+src/App.tsx(12264,19): error TS1128: Declaration or statement expected.
+src/App.tsx(12265,17): error TS1109: Expression expected.
+src/App.tsx(12266,15): error TS1109: Expression expected.
+src/App.tsx(12266,16): error TS1128: Declaration or statement expected.
+src/App.tsx(12270,17): error TS2657: JSX expressions must have one parent element.
+src/App.tsx(12430,27): error TS1109: Expression expected.
+src/App.tsx(12430,29): error TS17002: Expected corresponding JSX closing tag for 'div'.
+src/App.tsx(12514,27): error TS17002: Expected corresponding JSX closing tag for 'motion.div'.
+src/App.tsx(12550,25): error TS1005: ')' expected.
+src/App.tsx(12579,25): error TS2657: JSX expressions must have one parent element.
+src/App.tsx(12660,31): error TS1109: Expression expected.
+src/App.tsx(12660,33): error TS17002: Expected corresponding JSX closing tag for 'div'.
+src/App.tsx(12661,30): error TS1381: Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+src/App.tsx(12663,25): error TS1128: Declaration or statement expected.
+src/App.tsx(12695,34): error TS1002: Unterminated string literal.
+src/App.tsx(12696,33): error TS1005: '}' expected.
+src/App.tsx(12696,35): error TS17002: Expected corresponding JSX closing tag for 'div'.
+src/App.tsx(12704,33): error TS17002: Expected corresponding JSX closing tag for 'div'.
+src/App.tsx(12705,29): error TS1128: Declaration or statement expected.
+src/App.tsx(12706,27): error TS1128: Declaration or statement expected.
+src/App.tsx(12709,32): error TS1005: ';' expected.
+src/App.tsx(12737,34): error TS1002: Unterminated string literal.
+src/App.tsx(12738,33): error TS1128: Declaration or statement expected.
+src/App.tsx(12746,31): error TS1128: Declaration or statement expected.
+src/App.tsx(12747,29): error TS1109: Expression expected.
+src/App.tsx(12748,27): error TS1128: Declaration or statement expected.
+src/App.tsx(12749,25): error TS1109: Expression expected.
+src/App.tsx(12752,30): error TS1005: ';' expected.
+src/App.tsx(12753,27): error TS2657: JSX expressions must have one parent element.
+src/App.tsx(12769,25): error TS1128: Declaration or statement expected.
+src/App.tsx(12799,23): error TS1128: Declaration or statement expected.
+src/App.tsx(12800,21): error TS1109: Expression expected.
+src/App.tsx(12800,22): error TS1128: Declaration or statement expected.
+src/App.tsx(12801,19): error TS1128: Declaration or statement expected.
+src/App.tsx(12804,24): error TS1005: ';' expected.
+src/App.tsx(12805,21): error TS2657: JSX expressions must have one parent element.
+src/App.tsx(12832,19): error TS1128: Declaration or statement expected.
+src/App.tsx(12835,21): error TS1003: Identifier expected.
+src/App.tsx(12835,22): error TS1138: Parameter declaration expected.
+src/App.tsx(12837,28): error TS1005: ';' expected.
+src/App.tsx(12838,25): error TS2657: JSX expressions must have one parent element.
+src/App.tsx(12910,25): error TS2657: JSX expressions must have one parent element.
+src/App.tsx(13000,54): error TS1109: Expression expected.
+src/App.tsx(13046,34): error TS1002: Unterminated string literal.
+src/App.tsx(13047,33): error TS1005: '}' expected.
+src/App.tsx(13047,35): error TS17002: Expected corresponding JSX closing tag for 'div'.
+src/App.tsx(13055,33): error TS17002: Expected corresponding JSX closing tag for 'div'.
+src/App.tsx(13056,29): error TS1128: Declaration or statement expected.
+src/App.tsx(13056,30): error TS1128: Declaration or statement expected.
+src/App.tsx(13057,27): error TS1128: Declaration or statement expected.
+src/App.tsx(13060,32): error TS1005: ';' expected.
+src/App.tsx(13088,34): error TS1002: Unterminated string literal.
+src/App.tsx(13089,33): error TS1128: Declaration or statement expected.
+src/App.tsx(13097,31): error TS1128: Declaration or statement expected.
+src/App.tsx(13098,29): error TS1109: Expression expected.
+src/App.tsx(13099,27): error TS1128: Declaration or statement expected.
+src/App.tsx(13100,25): error TS1109: Expression expected.
+src/App.tsx(13256,23): error TS1128: Declaration or statement expected.
+src/App.tsx(13259,28): error TS1005: ';' expected.
+src/App.tsx(13815,23): error TS1128: Declaration or statement expected.
+src/App.tsx(13816,21): error TS1109: Expression expected.
+src/App.tsx(13816,23): error TS1109: Expression expected.
+src/App.tsx(13817,19): error TS1109: Expression expected.
+src/App.tsx(13817,21): error TS1128: Declaration or statement expected.
+src/App.tsx(13821,20): error TS1128: Declaration or statement expected.
+src/App.tsx(14097,17): error TS1128: Declaration or statement expected.
+src/App.tsx(14098,15): error TS1109: Expression expected.
+src/App.tsx(14098,16): error TS1128: Declaration or statement expected.
+src/App.tsx(14772,13): error TS1128: Declaration or statement expected.
+src/App.tsx(14775,18): error TS1005: ';' expected.
+src/App.tsx(14782,17): error TS1109: Expression expected.
+src/App.tsx(14788,15): error TS1005: ',' expected.
+src/App.tsx(14788,16): error TS1003: Identifier expected.
+src/App.tsx(14819,13): error TS1128: Declaration or statement expected.
+src/App.tsx(14820,13): error TS1109: Expression expected.
+src/App.tsx(14820,15): error TS1109: Expression expected.
+src/App.tsx(14820,16): error TS1109: Expression expected.
+src/App.tsx(14820,17): error TS1128: Declaration or statement expected.
+src/App.tsx(15104,65): error TS1109: Expression expected.
+src/App.tsx(17174,18): error TS17008: JSX element 'motion.div' has no corresponding closing tag.
+src/App.tsx(17272,25): error TS1109: Expression expected.
+src/App.tsx(17272,27): error TS17002: Expected corresponding JSX closing tag for 'div'.
+src/App.tsx(17422,19): error TS1128: Declaration or statement expected.
+src/App.tsx(17425,24): error TS1005: ';' expected.
+src/App.tsx(17433,19): error TS1128: Declaration or statement expected.
+src/App.tsx(17434,17): error TS1109: Expression expected.
+src/App.tsx(17435,15): error TS1109: Expression expected.
+src/App.tsx(17436,13): error TS1109: Expression expected.
+src/App.tsx(17436,14): error TS1128: Declaration or statement expected.
+src/App.tsx(18000,11): error TS1128: Declaration or statement expected.
+src/App.tsx(18001,9): error TS1109: Expression expected.
+src/App.tsx(18001,10): error TS1128: Declaration or statement expected.
+src/App.tsx(18002,7): error TS1128: Declaration or statement expected.
+src/App.tsx(18003,5): error TS1109: Expression expected.
+src/App.tsx(18004,3): error TS1109: Expression expected.
+src/App.tsx(18005,1): error TS1128: Declaration or statement expected.

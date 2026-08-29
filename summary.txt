@@ -1,0 +1,16 @@
+I have successfully implemented the Generate Tournament functionality and the Tournament Review process.
+
+Here are the completed tasks:
+
+- **Generate Tournament Process**:
+  - Implemented the deposit calculation mechanism which requires the user to deposit 10% of the tournament's prize pool from their main wallet.
+  - Added a confirmation modal showing the required token transfer prior to tournament generation.
+  - Successfully linked the confirmed action to a Firestore transaction that deduces tokens and records the transfer history while creating a 'Pending' status tournament.
+  - Included a backend check ensuring a user has sufficient tokens in their balance.
+
+- **Tournament Review and Approval Process**:
+  - Added a new 'Tournament Review' interface within both the Owner and Super Admin panels.
+  - Admins can now approve or reject submitted tournaments via this panel.
+  - When approved, a tournament's status is changed from 'Pending' to 'Open', allowing it to be visible on the main page.
+  - Rejection includes a reason input, which sets the status to 'Rejected', securely refunds the host's deposit back to their main wallet (creating a credit wallet_history log), and hides the tournament from general players.
+  - Created a dynamic tabbed interface for admins to filter tournaments by 'Pending', 'Approved', and 'Rejected' history.
